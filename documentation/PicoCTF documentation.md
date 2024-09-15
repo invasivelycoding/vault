@@ -1,8 +1,8 @@
 We're gonna start with the super easy stuff
 ## WebDecode
 To me this seems pretty self explanatory. I first want to open up the inspector by either right clicking and clicking inspect element on the page or F12 on your keyboard. One of the first places I looked was to see if there was anything stored in the cookies.
-![[Pasted image 20240914151435.png]]As you can see, there was nothing stored in the cookies. Maybe we can take a look at the HTML code of the page. You can look through the HTML code by going to Network and viewing the .html files that are loaded when loading up the website. You can look through elements, but any extensions you have installed can possibly inject itself into the webpage, adding extra html code that is not apart of the website itself. Snooping around, the html documents look normal to me, except for one page...
-![[Pasted image 20240914151653.png]]This stands out among the rest because of this "notify_true" tag with these seemingly random combination of characteres and numbers. We can try decoding this using an application called CyberChef, which is kind of the swiss army knife for cyber. Loading up cyberchef, we need to drag the Magic operation into the Recipe. After that, we will paste that odd looking jumble of text into the Input box, then in the Output box should be our flag, which we can submit.![[chrome_MeFXbytID2.gif]]
+![[cookies.png]]As you can see, there was nothing stored in the cookies. Maybe we can take a look at the HTML code of the page. You can look through the HTML code by going to Network and viewing the .html files that are loaded when loading up the website. You can look through elements, but any extensions you have installed can possibly inject itself into the webpage, adding extra html code that is not apart of the website itself. Snooping around, the html documents look normal to me, except for one page...
+![[html.png]]This stands out among the rest because of this "notify_true" tag with these seemingly random combination of characteres and numbers. We can try decoding this using an application called CyberChef, which is kind of the swiss army knife for cyber. Loading up cyberchef, we need to drag the Magic operation into the Recipe. After that, we will paste that odd looking jumble of text into the Input box, then in the Output box should be our flag, which we can submit.![[cyberchef_actual.gif]]
 Now that's really easy, lets delve into something harder.
 # Tic-Tac
 ### Introduction:
@@ -28,15 +28,15 @@ In this challenge, we are looking at a program someone created to read text file
 - **Example**: If you create a symlink named `link.txt` that points to `actualfile.txt`, accessing `link.txt` will give you the contents of `actualfile.txt`.
 ### Preparation:
 Assuming you already have a PicoCTF account, visit the link here for the challenge: https://play.picoctf.org/practice/challenge/380?difficulty=3&page=1. Make sure you are here!!!
-![[Pasted image 20240914185301.png]]
+![[things.png]]
 Click the launch instance button then head over to the webshell:
-![[chrome_y0iehEnnkL.gif]]
+![[signing_in_to_webshell.gif]]
 Make sure when you are copying stuff to use ctrl+shift+v to paste it inside of the webshell.
 ## Analysis:
 Now that we are in, lets take a look at the files we have. We will do that by running ls -lsa and you should see an output similar to this:
-![[Pasted image 20240914153758.png]]
+![[ls.png]]
 For those who are unfamiliar to linux, we want to take a look at the txtreader file and its permissions assigned to it. -rwsr-xr-x. We want to specifically look at the s part of it, which the long version of it is setuid bit. This means that whatever user runs this program, they run it as root, so think of it as the person that has access to anything and everything inside of the system, while we have limited access. Even though we have this huge leverage with the application, we are still unable to read the flag owned by root. Lets look into the source code of the application.
-![[Pasted image 20240914153834.png]]
+![[source_code.png]]
 This is the basic rundown of this script for if you don't know C++:
 1. **Check Command-Line Arguments**:
     - The script expects exactly one command-line argument, which should be the name of a file. If the user does not provide the file name, it prints a usage message and exits.
@@ -156,7 +156,7 @@ Run the program
 ```
 We then wait until the ctf-player@pico-chall shows back up
 Visual representation:
-![[chrome_sIq9Dj8dna.gif]]
+![[demo.gif]]
 We then finally view the output file
 ```
 cat output.txt
